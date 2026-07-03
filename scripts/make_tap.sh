@@ -1,4 +1,3 @@
-ROOTDIR=/scratch/dgoldber/MITgcm
 
 if [ $1 == "genarr" ]; then
         numgen=3
@@ -43,7 +42,7 @@ echo $LD_LIBRARY_PATH
 ###
 make CLEAN
 #$ROOTDIR/tools/genmake2 -mods=../$code_dir -of=$HOME/own_scripts/dev_linux_amd64_cray_archer2_oad -tap -mpi -tap_extra='-defaultnocheckpoint -nooptim adjointliveness' 
-$ROOTDIR/tools/genmake2 -mods=../$code_dir -tap -tap_extra='-defaultnocheckpoint -nooptim adjointliveness' -rootdir=$ROOTDIR -mpi=/usr/bin -of=../scripts/linux_amd64_gfortran_w_petsc
+$MITGCM_ROOTDIR/tools/genmake2 -mods=../$code_dir -tap -tap_extra='-defaultnocheckpoint -nooptim adjointliveness' -mpi=/usr/bin -of=../scripts/linux_amd64_gfortran_w_petsc
 make depend
 echo $LD_LIBRARY_PATH
 make -j tap_adj
