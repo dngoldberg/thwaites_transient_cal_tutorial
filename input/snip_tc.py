@@ -95,6 +95,7 @@ surfbm = interp_bedmachine_antarctica(X,Y,'surface');
 smb = interp_racmo_1km(X,Y);
 
 # obtain dhdt on ice shelves from Smith 2020 (even though they are too small)
+# UPDATE PATH HERE
 tif_file = (
             "/exports/csce/datastore/geos/users/dgoldber/"
             "ice_data/Smith2020_updated/ICESat1_ICESat2_mass_change_updated_2_2021/dhdt/"
@@ -124,7 +125,7 @@ interper = RegularGridInterpolator(
 dhdtSmith = interper((Y,X))
 dhdtSmith[Y<-5e5] = np.nan
 
-# Bamber dem
+# Bamber dem: UPDATE PATH HERE
 
 bamber_file = '/home/dgoldber/network_links/ice_data/bamber/krigged_dem_nsidc.bin'
 bamber_dem = np.fromfile(bamber_file,dtype='float32').reshape((5601,5601))
