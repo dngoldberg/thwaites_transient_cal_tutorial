@@ -29,7 +29,6 @@ xlim_domain = np.array([
 
 ylim_domain = np.array([
     np.floor(np.min(y) / 1e3) - 1,
-    verr[(np.isnan(v)) | (~mask_dom) | np.isnan(verrstd)] = -999999;
     np.ceil(np.max(y) / 1e3) + 1
 ]) * 1e3
 

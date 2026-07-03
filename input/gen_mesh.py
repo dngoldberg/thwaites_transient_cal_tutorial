@@ -4,8 +4,8 @@ import os
 from IPython import embed
 import setupExperimentTc
 
-npx = 10; # number of x-processors to use (nPx in SIZE.h)
-npy = 10; # number of y-processors to use (nPy in SIZE.h)
+npx = 5; # number of x-processors to use (nPx in SIZE.h)
+npy = 4; # number of y-processors to use (nPy in SIZE.h)
 
 timesteps_per_year = 12;
 
