@@ -1,0 +1,11 @@
+ &CTRL_NML
+# doPackDiag = .TRUE.,
+ /
+ &CTRL_PACKNAMES
+ /
+ &CTRL_NML_GENARR
+  xx_genarr2d_file(1)   = 'xx_bglen',
+  xx_genarr2d_weight(1) = 'wunit',
+  xx_genarr2d_file(2)   = 'xx_beta',
+  xx_genarr2d_weight(2) = 'wunit',
+ /
