@@ -35,15 +35,9 @@ else
   cd ../$build_dir
 fi
 
-# if  you are not using PETSC, you can comment these
-#PETSCDIR='/scratch/dgoldber/petsc-3.14.2/'
-#ln -s $PETSCDIR/arch-linux-c-opt/include/*.mod .
-echo $LD_LIBRARY_PATH
 ###
 make CLEAN
-#$ROOTDIR/tools/genmake2 -mods=../$code_dir -of=$HOME/own_scripts/dev_linux_amd64_cray_archer2_oad -tap -mpi -tap_extra='-defaultnocheckpoint -nooptim adjointliveness' 
 $MITGCM_ROOTDIR/tools/genmake2 -mods=../$code_dir -tap -tap_extra='-defaultnocheckpoint -nooptim adjointliveness' -mpi=/usr/bin -of=../scripts/linux_amd64_gfortran_w_petsc
 make depend
-echo $LD_LIBRARY_PATH
 make -j tap_adj
 
