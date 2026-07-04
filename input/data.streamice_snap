@@ -62,7 +62,7 @@
  /
 
  &STREAMICE_COST
- streamice_wgt_vel = 0.0
+ streamice_wgt_vel = 1.0
  streamice_wgt_vel_norm = 200.0
  streamice_wgt_tikh_bglen = 1.e6
  streamice_wgt_tikh_beta = 1.e6
