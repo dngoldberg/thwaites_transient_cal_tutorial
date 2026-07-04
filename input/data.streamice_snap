@@ -57,8 +57,8 @@
 
  &STREAMICE_PARMOAD
  streamice_nonlin_tol_adjoint_rl = 1.e-2,
-# STREAMICE_OAD_petsc_reuse=.true.,
-# PETSC_PRECOND_OAD='BLOCKJACOBI'
+ STREAMICE_OAD_petsc_reuse=.true.,
+ PETSC_PRECOND_OAD='BLOCKJACOBI'
  /
 
  &STREAMICE_COST
