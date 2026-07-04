@@ -278,8 +278,8 @@ def setup_experiment_tc(nx, ny, gx, gy, timesteps_per_year):
 # remove nans from snapshot obs files
 
     verrstd = globals()['verrstd']
-    vx = globals()['verrstd']
-    vy = globals()['verrstd']
+    vx = globals()['vx']
+    vy = globals()['vy']
     vx[(np.isnan(v)) | (~mask_dom) | np.isnan(verrstd)] = -999999;
     vy[(np.isnan(v)) | (~mask_dom) | np.isnan(verrstd)] = -999999;
     verrstd[(np.isnan(v)) | (~mask_dom) | np.isnan(verrstd)] = -999999;
@@ -330,3 +330,7 @@ def setup_experiment_tc(nx, ny, gx, gy, timesteps_per_year):
 
     np.concatenate((diffx,np.ones(gx))).byteswap().tofile('delX.bin')
     np.concatenate((diffy,np.ones(gy))).byteswap().tofile('delY.bin')
+
+    x_mesh_mid.byteswap().tofile('x_mesh_mid.bin')
+    y_mesh_mid.byteswap().tofile('y_mesh_mid.bin')
+

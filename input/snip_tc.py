@@ -192,6 +192,7 @@ hasfirn = (firn>0)
 nofirn = (firn==0) & (~np.isnan(surf))
 firn[nofirn] = inv_dist_weighting(X[hasfirn],Y[hasfirn],firn[hasfirn],X[nofirn],Y[nofirn],2,5.e4)
 
+
 list_out = ['bed', 'firn', 'geoid', 'surf', 'surfbm', 'x_mesh_mid', 'y_mesh_mid', 'mask_dom', 'cpomdict', 'x_mesh_mid', 'y_mesh_mid']
 list_out = list_out + ['smb', 'diffx', 'diffy', 'verrstd', 'vx', 'vy', 'v', 'maskbm', 'bmthick', 'mask_cost', 'dhdtSmith']
 
