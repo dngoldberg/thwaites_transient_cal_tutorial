@@ -6,6 +6,8 @@ from scipy.io import loadmat
 import shutil
 from scipy.interpolate import RegularGridInterpolator
 from interpMouginotAmund import interp_mouginot_amund
+from scipy.ndimage import gaussian_filter as gfilter
+
 
 import os
 os.system('python snip_tc.py')
@@ -39,6 +41,10 @@ def setup_experiment_tc(nx, ny, gx, gy, timesteps_per_year):
 
     # ADJUST BAMBER SURFACE
     surfadj = surf - firn - geoid
+
+    if filter_surf:
+        surfadj2 = gfilter(surfadj,3,mode='nearest')
+
     surf[np.isnan(surf)]=0
     # that any ocean pixels in the pre-adjusted dataset are given zero thickness
     surfadj[surf==0]=0
@@ -51,7 +57,7 @@ def setup_experiment_tc(nx, ny, gx, gy, timesteps_per_year):
     base = np.maximum(bed,base_floatation)
     thick_mod = surfadj-base;
     thick_mod[surfadj==0]=0;
-    thick = thick_mod;
+    thick = thick_mod.copy();
     gr = (bed==base);
     
     # mask for defining thickness mask (Hmask). this mask array emulates
@@ -61,7 +67,11 @@ def setup_experiment_tc(nx, ny, gx, gy, timesteps_per_year):
     mask[maskbm==1]=1;
     mask[surf<0]=0;
 
-    mask[(thick<0) & (mask!=1)] = 1; 
+    mask[(thick<0) & (mask!=1)] = 1;
+
+    # due to difficulties around mount murphy, we remove all pixels where bed is over a certain height
+    # we would not do this if we were interested im modelling smith glacier
+    mask[bed>200] = 1;
 
     #%%%%%%%%%%%%%%%%%%%%%
 
@@ -77,7 +87,7 @@ def setup_experiment_tc(nx, ny, gx, gy, timesteps_per_year):
 
     hmask = np.ones_like(thick);
     hmask[mask==1]=-1;
-    hmask[(surf==0) & (mask!=1)]=0;
+    hmask[mask==0]=0;
 
     # the following ensures that all cells on the boundary of mesh are out of bounds
     # which avoids any issues with boundary nodes being out of domain
@@ -88,10 +98,11 @@ def setup_experiment_tc(nx, ny, gx, gy, timesteps_per_year):
     
     # this filters out ice that is too thin and could cause instability
     hmask[thick<10 & ((hmask==1)|(hmask==2))]= -1;
-    
+
     # this filters out very thin ice on nunataks
     hmask[surf>2000]=-1;
     hmask[~mask_dom]=-1;
+
 
     # this step is important for removing unconnecting floating components
     # as STREAMICE currently does not remove these automatically
@@ -105,6 +116,7 @@ def setup_experiment_tc(nx, ny, gx, gy, timesteps_per_year):
     if len(sizes) > 2:  # background + at least two components
         largest = np.argmax(sizes[1:]) + 1
         hmask[(labels != 0) & (labels != largest)] = -1
+
 
     # a proxy bed -- to fool the control package
     faketopog = -1000*np.ones((ny,nx));
@@ -188,7 +200,7 @@ def setup_experiment_tc(nx, ny, gx, gy, timesteps_per_year):
 
         # we consider this to be in the middle of the coverage period, so 6 mos before the year value
         timestep = timesteps_per_year * (year - 2004 - 0.5)
-        suffix = str(timestep).zfill(10)
+        suffix = str(int(timestep)).zfill(10)
 
         vxt.byteswap().tofile('velocity_constraints/velobsMoug' + suffix + 'u.bin')
         vyt.byteswap().tofile('velocity_constraints/velobsMoug' + suffix + 'v.bin')
