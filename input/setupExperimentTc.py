@@ -10,8 +10,9 @@ from interpMouginotAmund import interp_mouginot_amund
 import os
 os.system('python snip_tc.py')
 
-f = open('interpolated_data.pkl','rb')
-    
+# We read the contents of the pickle file without having to name each variable explicitly.
+
+f = open('interpolated_data.pkl','rb')    
 data = pkl.load(f)
 for key in data.keys():
         print(f"{key} = data['{key}']")
@@ -19,7 +20,9 @@ for key in data.keys():
 
 def setup_experiment_tc(nx, ny, gx, gy, timesteps_per_year):
 
-    
+
+    # This function zero-fills "buffers" required for an integer
+    #  number of processors
     def block(M):        
         return np.block([
             [M, np.zeros((ny, gx))],
@@ -37,6 +40,7 @@ def setup_experiment_tc(nx, ny, gx, gy, timesteps_per_year):
     # ADJUST BAMBER SURFACE
     surfadj = surf - firn - geoid
     surf[np.isnan(surf)]=0
+    # that any ocean pixels in the pre-adjusted dataset are given zero thickness
     surfadj[surf==0]=0
 
     # find base for thickness calc 
@@ -50,16 +54,14 @@ def setup_experiment_tc(nx, ny, gx, gy, timesteps_per_year):
     thick = thick_mod;
     gr = (bed==base);
     
-    # mask for defining thickness mask (Hmask). i cannot recall why i set some values to 2 or 
-    # why i based it on the surface, not the adjusted surface
+    # mask for defining thickness mask (Hmask). this mask array emulates
+    #   the bedmachine mask: 0 is ocean, 1 is ice-free land, and 2 is ice covered
     mask = np.zeros_like(surf);
     mask[surf>0]=2;
     mask[maskbm==1]=1;
     mask[surf<0]=0;
 
-    mask[(thick<0) & (mask!=1)] = 1;  # used to define the hmask (ice mask)
-
-
+    mask[(thick<0) & (mask!=1)] = 1; 
 
     #%%%%%%%%%%%%%%%%%%%%%
 
@@ -76,13 +78,18 @@ def setup_experiment_tc(nx, ny, gx, gy, timesteps_per_year):
     hmask = np.ones_like(thick);
     hmask[mask==1]=-1;
     hmask[(surf==0) & (mask!=1)]=0;
+
+    # the following ensures that all cells on the boundary of mesh are out of bounds
+    # which avoids any issues with boundary nodes being out of domain
     hmask[0,:]  = -1;
     hmask[-1,:] = -1;
     hmask[:,0]  = -1;
     hmask[:,-1] = -1;
+    
     # this filters out ice that is too thin and could cause instability
     hmask[thick<10 & ((hmask==1)|(hmask==2))]= -1;
-    # this filters out v thin ice on nunataks
+    
+    # this filters out very thin ice on nunataks
     hmask[surf>2000]=-1;
     hmask[~mask_dom]=-1;
 
@@ -99,6 +106,7 @@ def setup_experiment_tc(nx, ny, gx, gy, timesteps_per_year):
         largest = np.argmax(sizes[1:]) + 1
         hmask[(labels != 0) & (labels != largest)] = -1
 
+    # a proxy bed -- to fool the control package
     faketopog = -1000*np.ones((ny,nx));
     faketopog[0,:] = 0
     faketopog[-1,:] = 0
@@ -124,6 +132,10 @@ def setup_experiment_tc(nx, ny, gx, gy, timesteps_per_year):
         errxmoug[year] = errxmougt
         errymoug[year] = errymougt
 
+    ####################################
+    # process the velocity constraints #
+    ####################################
+    
     outdir = Path("velocity_constraints")
     outdir.mkdir(exist_ok=True)
 
@@ -182,14 +194,17 @@ def setup_experiment_tc(nx, ny, gx, gy, timesteps_per_year):
         vyt.byteswap().tofile('velocity_constraints/velobsMoug' + suffix + 'v.bin')
         errt.byteswap().tofile('velocity_constraints/velobsMoug' + suffix + 'err.bin')
 
+
+    ####################################
+    # process the surface constraints #
+    ####################################
+    
     outdir = Path("surface_constraints")
     outdir.mkdir(exist_ok=True)
 
     for f in outdir.iterdir():
         if f.is_file():
             f.unlink()
-
-# cpomdict: dict_keys(['dhdt_02_07', 'dhdt_02_07_err', 'dhdt_07_12', 'dhdt_07_12_err', 'dhdt_12_17', 'dhdt_12_17_err'])     
 
     dH_T3_cpom = (2007-2004) * cpomdict['dhdt_02_07']
     dH_T8_cpom = (2012-2007) * cpomdict['dhdt_07_12'] + dH_T3_cpom
