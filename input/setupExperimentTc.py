@@ -69,9 +69,9 @@ def setup_experiment_tc(nx, ny, gx, gy, timesteps_per_year):
 
     mask[(thick<0) & (mask!=1)] = 1;
 
-    # due to difficulties around mount murphy, we remove all pixels where bed is over a certain height
-    # we would not do this if we were interested im modelling smith glacier
-    mask[bed>200] = 1;
+    ## due to difficulties around mount murphy, we remove all pixels where bed is over a certain height
+    ## we would not do this if we were interested im modelling smith glacier
+    #mask[bed>200] = 1;
 
     #%%%%%%%%%%%%%%%%%%%%%
 

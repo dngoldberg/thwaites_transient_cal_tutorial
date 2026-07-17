@@ -35,6 +35,7 @@ ylim_domain = np.array([
 dx = 1500
 
 
+
 # MATLAB colon operator includes the endpoint if exactly reached
 x_mesh = np.arange(xlim_domain[0] - dx/2,
                    xlim_domain[1] + dx/2 + dx,

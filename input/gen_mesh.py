@@ -19,6 +19,8 @@ ny = len(data['y_mesh_mid']);
 gx = int(np.ceil(nx/npx) * npx - nx);
 gy = int(np.ceil(ny/npy) * npy - ny);
 
+gy = gy+4 # adjustment to make vertical size a round number
+
 # displays values that are needed for sNx, sNy
 print('tile nx: ' + str(np.ceil(nx/npx))) # sNx in SIZE.h
 print('tile ny: ' + str(np.ceil(ny/npy))) # sNx in SIZE.h
