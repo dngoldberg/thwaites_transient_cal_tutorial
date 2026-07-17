@@ -27,7 +27,7 @@ do
  mv -f TTT.tmp data.optim
  fich=output$name$ii
  echo "Running mitcgm_ad: iteration $ii"
- mpirun -n $procsonnode ./mitgcmuv_tap_adj > out 2> err
+ mpirun -n $procsonnode ./mitgcmuv_ad > out 2> err
  mv STDOUT.0000 $fich
  egrep optimcycle data.optim >> fcost$name
  grep "objf_temp_tut(" $fich >> fcost$name

@@ -38,6 +38,8 @@ fi
 ###
 make CLEAN
 $MITGCM_ROOTDIR/tools/genmake2 -mods=../$code_dir -tap -tap_extra='-defaultnocheckpoint -nooptim adjointliveness' -mpi=/usr/bin -of=../scripts/linux_amd64_gfortran_w_petsc
+#$MITGCM_ROOTDIR/tools/genmake2 -mods=../$code_dir -tap -tap_extra='-defaultnocheckpoint -nooptim adjointliveness'
 make depend
 make -j tap_adj
+cp mitgcmuv_tap_adj mitgcmuv_ad
 
