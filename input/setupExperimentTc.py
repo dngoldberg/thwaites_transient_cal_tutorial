@@ -248,6 +248,8 @@ def setup_experiment_tc(nx, ny, gx, gy, timesteps_per_year):
 
         surftemp.byteswap().tofile(f'surface_constraints/CPOM_surf{str(timesteps_per_year*yr).zfill(10)}.bin')
         surftemp_smith.byteswap().tofile(f'surface_constraints/CPOMSmith_surf{str(timesteps_per_year*yr).zfill(10)}.bin')
+        errCpom.byteswap().tofile(f'surface_constraints/CPOM_surf{str(timesteps_per_year*yr).zfill(10)}err.bin')
+        errCpomSmith.byteswap().tofile(f'surface_constraints/CPOMSmith_surf{str(timesteps_per_year*yr).zfill(10)}err.bin')
 
     ### initial bglen based on pattyn steady temp solution
 
