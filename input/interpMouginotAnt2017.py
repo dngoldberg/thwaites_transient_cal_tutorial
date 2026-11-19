@@ -31,8 +31,8 @@ def interp_mouginot_ant2017(X, Y, data_type, nc_file=None, return_speed=False):
 
     if nc_file is None:
         nc_file = (
-            "/exports/csce/datastore/geos/users/dgoldber/"
-            "ice_data/ThwaitesDataProphet/Velocities/"
+            "/exports/geos.ed.ac.uk/iceocean/shared_ice_data/"
+            "/ThwaitesDataProphet/Velocities/"
             "vel_nsidc.CF16_2.nc"
         )
 
@@ -80,6 +80,12 @@ def interp_mouginot_ant2017(X, Y, data_type, nc_file=None, return_speed=False):
 
     xsub = xdata[id1x:id2x + 1]
     ysub = ydata[id1y:id2y + 1]
+
+    # flip y-axis and data arrays if ysub is in descending order
+    if ysub[0] > ysub[-1]:
+        ysub = ysub[::-1]
+        vxdata = vxdata[::-1, :]
+        vydata = vydata[::-1, :]
 
     print("   -- Mouginot 2017: interpolating")
 

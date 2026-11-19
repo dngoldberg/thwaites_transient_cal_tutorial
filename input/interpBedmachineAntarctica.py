@@ -38,8 +38,8 @@ def interp_bedmachine_antarctica(
 
     if nc_file is None:
         nc_file = (
-            "/exports/csce/datastore/geos/users/dgoldber/"
-            "ice_data/ThwaitesDataProphet/BedMachine/"
+            "/exports/geos.ed.ac.uk/iceocean/shared_ice_data/"
+            "ThwaitesDataProphet/BedMachine/"
             f"BedMachineAntarctica{basename}-{ncdate}.nc"
         )
 
@@ -87,6 +87,9 @@ def interp_bedmachine_antarctica(
 
     xsub = xdata[id1x:id2x + 1]
     ysub = ydata[id1y:id2y + 1]
+
+    if ysub[0] > ysub[-1]:
+        ysub = ysub[::-1]
 
     print(f"   -- BedMachine Antarctica: interpolating {variable}")
 

@@ -11,6 +11,8 @@ from IPython import embed
 import rasterio as rio
 import pickle as pkl
 
+print("running snip")
+
 # Load bounds1.mat
 data1 = loadmat("bounds1.mat")
 x = data1["x"].squeeze()
@@ -97,8 +99,7 @@ smb = interp_racmo_1km(X,Y);
 # obtain dhdt on ice shelves from Smith 2020 (even though they are too small)
 # UPDATE PATH HERE
 tif_file = (
-            "/exports/csce/datastore/geos/users/dgoldber/"
-            "ice_data/Smith2020_updated/ICESat1_ICESat2_mass_change_updated_2_2021/dhdt/"
+            "/home/kturner2/scratch/input_data/"
             "ais_dhdt_floating.tif"
            )
 
@@ -108,8 +109,8 @@ height = smith_dhdt.shape[0]
 width = smith_dhdt.shape[1]
 cols, rows = np.meshgrid(np.arange(width), np.arange(height))
 xs, ys = rio.transform.xy(rdr.transform, rows, cols)
-xs = xs.reshape((height,width))
-ys = ys.reshape((height,width))
+xs = np.array(xs).reshape((height, width))
+ys = np.array(ys).reshape((height, width))
 ys = np.flipud(ys)
 smith_dhdt = np.flipud(smith_dhdt)
 xs = xs[0,:]
@@ -127,7 +128,7 @@ dhdtSmith[Y<-5e5] = np.nan
 
 # Bamber dem: UPDATE PATH HERE
 
-bamber_file = '/home/dgoldber/network_links/ice_data/bamber/krigged_dem_nsidc.bin'
+bamber_file = '/home/kturner2/scratch/input_data/krigged_dem_nsidc.bin'
 bamber_dem = np.fromfile(bamber_file,dtype='float32').reshape((5601,5601))
 bamber_dem = np.flipud(bamber_dem);
 bamber_x = np.arange(-2800500,(-2800500+5.601e6),1e3)
@@ -202,6 +203,7 @@ for varname in list_out:
     exec(f"dict_out['{varname}'] = {varname}")
 
 
+print("creating pkl file")
 f = open('interpolated_data.pkl','wb')
 pkl.dump(dict_out,f)
 f.close()

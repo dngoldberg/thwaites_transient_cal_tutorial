@@ -5,7 +5,7 @@ from scipy.interpolate import RegularGridInterpolator
 
 
 def interp_mouginot_amund(X, Y, year, data_type,
-                          nc_file="/exports/csce/datastore/geos/users/dgoldber/ice_data/ThwaitesDataProphet/Velocities/ASE_TimeSeries_1973-2018.nc",
+                          nc_file="/exports/geos.ed.ac.uk/iceocean/shared_ice_data/ThwaitesDataProphet/Velocities/ASE_TimeSeries_1973-2018.nc",
                           magnitude_only=False):
     """
     Interpolate Mouginot velocity data.

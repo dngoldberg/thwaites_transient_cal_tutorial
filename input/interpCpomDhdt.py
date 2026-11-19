@@ -21,8 +21,8 @@ def interp_cpom_dhdt(X, Y, nc_file=None):
 
     if nc_file is None:
         nc_file = (
-            "/exports/csce/datastore/geos/users/dgoldber/"
-            "ice_data/cryosat_data/dhdt_cpom/"
+            "/exports/geos.ed.ac.uk/iceocean/shared_ice_data/"
+            "dhdt_cpom/"
             "antarctic_dhdt_5km_grid_1992_2017.nc"
         )
 

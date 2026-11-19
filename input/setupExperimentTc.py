@@ -276,7 +276,7 @@ def setup_experiment_tc(nx, ny, gx, gy, timesteps_per_year):
 
     # UPDATE PATH HERE FOR TEMPERATURE FILE
 
-    pattyn_dir = '/exports/geos.ed.ac.uk/iceocean/dgoldber/pattyn/'
+    pattyn_dir = '/exports/geos.ed.ac.uk/iceocean/shared_ice_data/pattyn/'
 
     Q = loadmat(pattyn_dir + 'Temp_2013')
     Z = loadmat(pattyn_dir + 'Zeta')

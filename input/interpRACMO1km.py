@@ -25,7 +25,7 @@ def interp_racmo_1km(X, Y, ncname=None):
     # Update path accordingly
     
 
-    q = loadmat('/exports/csce/datastore/geos/users/dgoldber/ice_data/ThwaitesDataProphet/RACMO2.3/basin_Antarctica_1km_RACMO2') 
+    q = loadmat('/exports/geos.ed.ac.uk/iceocean/shared_ice_data/ThwaitesDataProphet/RACMO2.3/basin_Antarctica_1km_RACMO2') 
     xdata = q['x_m'].astype(np.float64).flatten()
     ydata = q['y_m'].astype(np.float64).flatten()
 
