@@ -33,8 +33,8 @@
  streamicehmaskfile = 'hmask.bin',
  STREAMICEuFaceBdryFile = 'ufacemask.bin',
  STREAMICEvFaceBdryFile = 'vfacemask.bin',
- STREAMICEuMassFluxFile = 'ufluxdirich.bin',
- STREAMICEvMassFluxFile = 'vfluxdirich.bin',
+ #STREAMICEuMassFluxFile = 'ufluxdirich.bin',
+ #STREAMICEvMassFluxFile = 'vfluxdirich.bin',
  STREAMICE_diagnostic_only=.false.,
  streamice_allow_reg_coulomb=.true.
  streamice_bdot_depth_nomelt = 0
